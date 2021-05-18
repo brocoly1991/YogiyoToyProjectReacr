@@ -1,0 +1,16 @@
+@import '~antd/dist/antd.css';
+
+.ant-checkbox-disabled + span {
+     color: rgba(0, 0, 0); 
+    cursor: not-allowed;
+}
+
+.ant-radio-disabled + span {
+    color: rgb(0 0 0);
+    cursor: not-allowed;
+}
+
+.ant-select-disabled +span {
+    color: rgb(0 0 0);
+    cursor: not-allowed;   
+}

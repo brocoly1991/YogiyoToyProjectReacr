@@ -1,0 +1,19 @@
+@import '~antd/dist/antd.css';
+
+.ant-card-body {
+    padding: 15px;
+    zoom: 1;
+}
+
+
+.RawBlock::-webkit-scrollbar {
+    /* display: none; */
+    /* width: 0 !important */
+    width: 20.2px; 
+}
+.slick-dots .slick-dots-bottom{
+    display: none;
+}
+/* Hide scroll
+
+/* -webkit-scrollbar {  } */

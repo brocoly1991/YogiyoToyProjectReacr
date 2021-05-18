@@ -1,0 +1,187 @@
+@import '~antd/dist/antd.css';
+
+.menu {
+  padding: 0 20px;
+  border-bottom: solid 1px #e8e8e8;
+  overflow: auto;
+  box-shadow: 0 0 30px #f3f1f1;
+  background-color: #fa0050;
+}
+
+.menu__logo {
+  width: 150px;
+  float: left;
+  margin-left: 10%;
+}
+
+.menu__logo a {
+  display: inline-block;
+  font-size: 20px;
+  padding: 19px 20px;
+}
+
+.menu__container .ant-menu-item {
+  padding: 0px 5px;
+  background-color: #fa0050;
+}
+
+
+.menu__container .ant-menu-submenu-title {
+  background-color: #fa0050;
+  padding: 10px 20px;
+}
+
+.menu__container .ant-menu-item a,
+.menu__container .ant-menu-submenu-title a {
+  padding: 10px 15px;
+}
+
+.menu__container .ant-menu-horizontal {
+  border-bottom: none;
+  background-color: #fa0050;
+}
+
+.menu__container .menu_left {
+  float: left;
+}
+
+.menu__container .menu_rigth {
+  float: right;
+  margin-right: 12%;
+}
+
+.menu__mobile-button {
+  float: right;
+  height: 60px;
+  padding: 20px;
+  margin-top: 8px;
+  display: none !important; /* use of important to overwrite ant-btn */
+  background: #ea7266;
+}
+
+.menu__login-button {
+  margin-top: 20px;
+  height: 55px;
+  padding: 1px 29px;
+  margin-right: 5px;
+  font-size: 30px;
+  background: #fa0050;
+  border: 1px solid #ea7266;
+  color: #e8e8e8;
+  cursor:pointer;
+}
+
+.menu__login-button-r {
+  margin-top: 20px;
+  height: 55px;
+  padding: 1px 29px;
+  margin-right: 5px;
+  font-size: 30px;
+  background: #fa0050;
+  border: 1px solid #ea7266;
+  color: #e8e8e8;
+  cursor:pointer;
+  display: none !important
+}
+
+.menu_drawer .ant-drawer-body {
+  padding: 0 !important;
+  margin: 20px;
+}
+
+/* align header of Drawer with header of page */
+.menu_drawer .ant-drawer-header {
+  padding: 14px 24px !important;
+}
+
+.ant-badge-count {
+  z-index: auto;
+  min-width: 20px;
+  height: 24px;
+  padding: 0px 10px;
+  width: 40px;
+  color: #fff;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-align: center;
+  background: #f5222d;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #fff;
+}
+
+
+
+.neon {
+  -webkit-animation:blink 0.5s ease-in-out infinite alternate;
+  -moz-animation:blink 0.5s ease-in-out infinite alternate;
+  animation:blink 0.5s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes blink{
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+@-moz-keyframes blink{
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+@keyframes blink{
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+/* @keyframes neon {
+  0%,
+  100% {
+    text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128, .5vw .5vw .1vw #806914;
+    color: #FED128;
+  }
+  50% {
+    text-shadow: 0 0 .5vw #800E0B, 0 0 1.5vw #800E0B, 0 0 5vw #800E0B, 0 0 5vw #800E0B, 0 0 .2vw #800E0B, .5vw .5vw .1vw #40340A;
+    color: #806914;
+  }
+} */
+
+@media (max-width: 767px) {
+  .menu__mobile-button {
+    display: inline-block !important;
+  }
+
+  .menu_left,
+  .menu_rigth {
+    display: none;
+  }
+
+  .menu__logo a {
+    margin-left: -20px;
+  }
+
+  .menu__container .ant-menu-item,
+  .menu__container .ant-menu-submenu-title {
+    padding: 1px 20px;
+  }
+
+  .menu__logo a {
+    padding: 10px 20px;
+  }
+
+  .HomeNavBar ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .HomeNavBar li{
+    float: left;
+  }
+
+  .menu__login-button-r {
+    display: inline-block !important;
+    padding : 3%
+  }
+
+
+}
