@@ -52,6 +52,8 @@ function App() {
           {/* mypage 내정보 수정 페이지 라우터 */}
           <Route exact path="/menuinfo" component={Auth(MenuInfoPage, true)} />
           {/* 메뉴 / 리뷰 / 정보 가져오는 상위컴포넌트 라우터*/}
+          <Route exact path="/storePage/:storeId" component={Auth(StorePage, null)} />
+          {/* 음식점리스트 가져오는 페이지 라우터 */}
           <Route exact path="/register/ceoModify" component={Auth(StoreRegisterModify, true)} />
           {/* 업장 정보수정페이지 라우터*/}
           <Route exact path="/mypage" component={Auth(MyPage, true)} />
@@ -82,7 +84,7 @@ function App() {
           <Route exact path="/LandingPage" component={Auth(LandingPage, null)} />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/history" component={Auth(HistoryPage, true)} />
-          <Route exact path="/storePage/:storeId" component={Auth(StorePage, null)} />
+          
           
         </Switch>
       </div>

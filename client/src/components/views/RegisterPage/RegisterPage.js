@@ -58,6 +58,13 @@ const radioChangeHandler = (values) => {
   setRadioValue(values.target.value)
 }
 
+  //숫자만 입력
+  const numberFormat= (e) =>{
+
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    } 
+  }
 
 const phoneRegExp = /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/
 
@@ -78,8 +85,8 @@ const phoneRegExp = /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/
           .required('Name is required'),
         hpNumner: Yup.string()
           .matches(phoneRegExp, 'Phone number is not valid')
-          .min(10, 'Password must be at least 6 characters')
-          .max(11, 'Password must be at least 6 characters')
+          .min(10, 'hp must be at least 10 length')
+          .max(11, 'hp must be at the most 11 length')
           .required('hp is required'),
         email: Yup.string()
           .email('Email is invalid')
@@ -91,6 +98,7 @@ const phoneRegExp = /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/
           .oneOf([Yup.ref('password'), null], 'Passwords must match')
           .required('Confirm Password is required')
       })}
+
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
 
@@ -106,6 +114,11 @@ const phoneRegExp = /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/
             if (response.payload.success) {
               props.history.push("/login");
             } else {
+              if(response.payload.err.code === 11000){
+                values.email = ''
+                setSubmitting(false);
+                return alert('이미존재하는 이메일주소입니다. \n이메일주소를 확인하여 주세요')
+              }
               alert(response.payload.err.errmsg)
             }
           })
@@ -129,7 +142,7 @@ const phoneRegExp = /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/
 
         return (
           <div className="app">
-            <h2>Sign up</h2>
+            <h2>요기요 회원가입</h2>
             <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
 
               <Form.Item required label="이메일주소" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
@@ -204,10 +217,12 @@ const phoneRegExp = /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/
                 <Input
                   id="hpNumner"
                   placeholder="Enter your Last Name"
-                  type="number"
+                  type="string"
                   value={values.hpNumner}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  maxLength = {11}       
+                  onKeyPress = {numberFormat}
                   className={
                     errors.hpNumner && touched.hpNumner ? 'text-input error' : 'text-input'
                   }

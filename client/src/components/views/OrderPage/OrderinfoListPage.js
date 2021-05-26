@@ -131,7 +131,6 @@ function OrderinfoListPage(props) {
     
     //리뷰점수
     const rateChange = (event)=>{
-        console.log(event)
         setrate(event)
     }
 
@@ -157,8 +156,6 @@ function OrderinfoListPage(props) {
             orderId: ReviewInfo.id
         }
 
-        console.log(body)
-
         Axios.post('/api/business/reviewSave', body)
         .then(response => {
             if (response.data.success) {        
@@ -174,7 +171,7 @@ function OrderinfoListPage(props) {
         })
     }
     /* ============================================================== */
-
+    
     /*=========== 배달주문상태 status 컨버젼후 주문리스트 랜더링함수======================= */
     const renderCards = OrderList.map((orderList, index) => {
         let statusInfo = {}
@@ -204,7 +201,6 @@ function OrderinfoListPage(props) {
                 format : '주문취소'
             }   
         }
-        /* =========================================================== */
 
         return (
             
@@ -213,7 +209,6 @@ function OrderinfoListPage(props) {
                     percent={statusInfo.percent} 
                     format={() => statusInfo.format} 
                 />
-            {/* <img style={{border:'1px solid' ,height:'60px' ,marginRight:'3%'}} src={menuNo1} /> */}
             <br></br>
                 
                 <h2>{orderList.Name}</h2>
@@ -229,6 +224,8 @@ function OrderinfoListPage(props) {
             </Card>
         )
     })
+    /* =========================================================== */
+
 
     /* =====================주문상세 정보를 가져오는 함수 =================*/
     const detailInfo =(orderList)=>{
@@ -253,13 +250,16 @@ function OrderinfoListPage(props) {
         <div style={{ width: '85%', margin: '3rem auto' }}>
 
           <div style={{minWidth:'450px',marginTop:'1%',width:'80%'}}>
-              {renderCards}
+              {OrderList.length > 0 ?
+                  renderCards : <h1>등록된 주문목록이 없습니다.</h1>
+              }
+              
 
               {PostSize >= Limit &&
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <button style={{backgroundColor:'#ff0000a3' ,color:'white', width:'100%'}} onClick={loadMoreHanlder}>더보기</button>
                 </div>
-                }
+              }
           </div>
 
                 <Modal

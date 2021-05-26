@@ -11,11 +11,13 @@ import AdminChartPage from './AdminChartPage'
 import AdminChartIncome from './AdminChartIncome'
 
 function AdminPage(props) {
+    const [state, setstate] = useState('admin')
+
     /* 
         AdminPageSideNavBar 컴포넌트 사이드메뉴바 에서받아온 값(val)으로 페이지랜더링
         최초 주문내역목록 페이지 로드
     */
-    const [state, setstate] = useState('admin')
+    
     const pathName = (val)=>{
         setstate(val)
     }

@@ -19,6 +19,7 @@ function ClientMenuInfoPage(props) {
     const menuId = props.match.params.menuId
     const [ReviewRate, setReviewRate] = useState()
     const [Flag, setFlag] = useState(false)
+    const [ImgState, setImgState] = useState([])
     const [ReviewState, setReviewState] = useState()
     const [state, setstate] = useState({})
     const [PayMent, setPayMent] = useState([])
@@ -106,6 +107,7 @@ function ClientMenuInfoPage(props) {
         axios.post('/api/business/getResInfo', body)
         .then(response => {
             setstate(response.data[0])
+            setImgState(response.data[0].RestaurantTitleImg)
             setAreaList(response.data[0].RestaurantAreaInfo)
             if(JSON.parse(window.localStorage.getItem("order")).length > 0){
                 setComPrice(JSON.parse(window.localStorage.getItem("orderMinPrice")))
@@ -245,6 +247,11 @@ function ClientMenuInfoPage(props) {
 
     /* 주문하기 버튼클릭시 결제페이지로 이동하는 함수 만약 유저가 결제페이지로 url찍고 강제이동하는걸 방지하기위해 state설정*/
     const orderClickHandler =()=>{
+
+        if(Number(TotalPirce) <  state.RestaurantPrice){
+            return alert("이 음식점의 최소 주문 금액은 " +ComPrice+"원 입니다.")
+        }
+        
         props.history.push({
             pathname : "/orderPage",
             state : {
@@ -386,17 +393,23 @@ function ClientMenuInfoPage(props) {
                     <button onClick={orderClickHandler} style={{width:'100%',height:40,fontSize:'large',color:'white',backgroundColor:"#fa0050",cursor:'pointer'}}>주문하기</button>
                 </div> 
             }
-
+   
             <div style={{ width: '55%', margin: '3rem auto' ,marginLeft:'5%'}}>
                 <div style={{border: '4px solid #d9d9d9'}}>
                     <Card lg={12} xs={24} style={{overflow: 'auto'}}>
-                            <h2>{state.RestaurantName}</h2>
+                            <h2 style={{fontWeight:'bold'}}>{state.RestaurantName}</h2>
                             <hr></hr>
                             <div style={{float:'left'}}>
-                                <img style={{ minWidth: '200px', width: '200px', height: '180px' ,border : '1px solid'}}
-                                        src={`http://localhost:5000/uploads/1613934805587_쉬림프피자.png`}
-                                />
+                            {state.RestaurantTitleImg === undefined ? 
+                            <h1>Loading...</h1>
+                            : 
+                            <img style={{ minWidth: '200px', width: '200px', height: '180px' ,border : '1px solid'}}
+                            src={`http://localhost:5000/${state.RestaurantTitleImg}`}  
+                            /> 
+                            
+                            }
                             </div>
+
                             <div style={{ padding : '1%' , minWidth: '200px', width: '400px', height: '180px', float: 'left' ,marginLeft : '2%' ,fontSize :'large'}}>
                                 {renderCnt(ReviewRate)}
                                 <p>최소주문금액 : &nbsp;
@@ -437,7 +450,12 @@ function ClientMenuInfoPage(props) {
                             <br></br>
                             <h2>사장님 알림</h2>
                             <hr></hr>
-                            <TextArea value={state.RestaurantDialog}/>
+                            { state.RestaurantDialog === 'N' &&
+                                <TextArea value='찾아주셔서 감사합니다^^'/>
+                            }
+                            { state.RestaurantDialog !== 'N' &&
+                                <TextArea value={state.RestaurantDialog}/>
+                            }
                             <br></br><br></br>
                             
                             <h2>업체정보</h2>

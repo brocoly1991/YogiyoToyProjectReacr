@@ -9411,7 +9411,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@^16.8.6", "react-dom@>=16.0.0", "react-dom@~0.14.8 || ^15.5.0":
+"react-dom@^0.14 || ^15.0.0-0 || ^16.0.0-0 || ^17.0.0-0", "react-dom@^16.8.6", "react-dom@>=16.0.0", "react-dom@~0.14.8 || ^15.5.0":
   "integrity" "sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-16.13.1.tgz"
   "version" "16.13.1"
@@ -9479,6 +9479,13 @@
   "integrity" "sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA=="
   "resolved" "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   "version" "3.0.4"
+
+"react-number-format@^4.5.5":
+  "integrity" "sha512-3NGqgSbMUwRwgJ4852RH24UFkW89yx/e0P78Hwmf3TajLMKCOJ7DPJCcl/6z+2+HpJ8AG7je/J8na3ykWx8acg=="
+  "resolved" "https://registry.npmjs.org/react-number-format/-/react-number-format-4.5.5.tgz"
+  "version" "4.5.5"
+  dependencies:
+    "prop-types" "^15.7.2"
 
 "react-paypal-express-checkout@^1.0.5":
   "integrity" "sha512-J2s/C9ftuG/ja1/QelGSg4veXij5p9zNhOqr2wTw6ERprWpHbQm/JNx/U43G5aiqAnnoFxlKsFl+t1nAOqbw6w=="
@@ -9608,7 +9615,7 @@
   dependencies:
     "prop-types" "^15.6.2"
 
-"react@^15.5.4", "react@^16.0.0", "react@^16.0.0-0", "react@^16.13.1", "react@^16.4.2", "react@^16.8.0 || ^17.0.0", "react@>= 16.8", "react@>=15.0.0", "react@>=16.0.0", "react@~0.14.8 || ^15.5.0", "react@16.x":
+"react@^0.14 || ^15.0.0-0 || ^16.0.0-0 || ^17.0.0-0", "react@^15.5.4", "react@^16.0.0", "react@^16.0.0-0", "react@^16.13.1", "react@^16.4.2", "react@^16.8.0 || ^17.0.0", "react@>= 16.8", "react@>=15.0.0", "react@>=16.0.0", "react@~0.14.8 || ^15.5.0", "react@16.x":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

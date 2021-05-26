@@ -14,7 +14,7 @@ function HomeNavBarPage(props) {
                 <li><a href="/storePage/18">일식/돈까스</a></li>
                 <li><a href="/storePage/17">족발/보쌈</a></li>
                 <li><a href="/OrderInfoPage">주문정보 조회</a></li>
-                <li><a href="/storeRegister">업점문의</a></li>
+                <li><a href="/storeRegister">입점문의</a></li>
             </ul>
    
     )

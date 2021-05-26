@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import  HomeContentPage from './HomeContentPage.js';
 import  HomeNavBarPage from './HomeNavBarPage.js';
 import './Sections/Navbar.css';

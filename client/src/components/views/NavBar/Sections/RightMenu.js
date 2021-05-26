@@ -24,33 +24,34 @@ function RightMenu(props) {
   const order = useSelector(state => state.order)
   let BusinessNumber = localStorage.getItem("BusinessNumber")
 
-
   useEffect(() => {
       let body = {
         BusinessNumber : BusinessNumber,
       }
-      dispatch(getOrderStroeList(body)).then(response => {
+      // dispatch(getOrderStroeList(body)).then(response => {
+        axios.post(`/api/business/getOrderStroeList` ,body).then(response => {  
         let cnt = 0
-        response.payload.orderList.forEach(item => {
+        response.data.orderList.forEach(item => {
             if(item.status === 'A'){
               cnt++
             }
             setCnt(cnt)
         })
       })
-  }, [])
+  }, [order])
 
-  useEffect(() => {
-    if(order.selectOrderStroeList !== undefined){
-      let cnt = 0
-      for(var i =0 ; i<order.selectOrderStroeList.length;i++){
-        if(order.selectOrderStroeList[i].status === 'A'){
-          cnt++
-        }
-        setCnt(cnt)
-      }
-    }
-}, [order])
+
+//   useEffect(() => {
+//     if(order.selectOrderStroeList !== undefined){
+//       let cnt = 0
+//       for(var i =0 ; i<order.selectOrderStroeList.length;i++){
+//         if(order.selectOrderStroeList[i].status === 'A'){
+//           cnt++
+//         }
+//         setCnt(cnt)
+//       }
+//     }
+// }, [order])
 
 
   /*주문정보 관련 함수 주문정보가 있을경우 order localstorage에 저장 이를 redux로 관리하여 실시간으로
@@ -76,7 +77,6 @@ function RightMenu(props) {
 
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then(response => {
-      console.log("response" , response)
       if (response.status === 200) {
         localStorage.clear()
         props.history.push("/login");

@@ -28,6 +28,7 @@ function ClientMenuTabMenu(props) {
                     contList.push({
                         key: item._id,
                         value: item.MenuGropName,
+                        DelYn : item.DelYn,
                         menu : []
                     })
                 })
@@ -45,11 +46,11 @@ function ClientMenuTabMenu(props) {
             .then(response => {    
                     if(response.data.menu.length > 0){
                         response.data.menu.map(item => { 
-                        
                             menuList.push({
                                 key: item._id,
                                 MenuGroup :item.MenuGroup,
                                 title: item.title,
+                                DelYn : item.DelYn,
                                 price: item.price
                             })
 
@@ -70,11 +71,14 @@ function ClientMenuTabMenu(props) {
     }
                     
     const renderCards = Continents.map((continents, index) => {
+        if(continents.DelYn === 'N'){
+            
         return  (
                 <Panel header={continents.value} key={continents.key} menu = {continents.menu} key={index}>
                     <Menulist list={continents.key} cbFunction={props.cbFunction}/>
                 </Panel>
                 )
+        }
     })
 
     return (

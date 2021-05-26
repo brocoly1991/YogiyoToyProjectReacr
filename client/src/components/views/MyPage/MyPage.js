@@ -99,7 +99,8 @@ function MyPage(props) {
                 alert('정보 저장에 성공 했습니다.')
                 localStorage.removeItem('BusinessNumber');
                 window.localStorage.setItem("BusinessNumber", BusinessNumber);
-                window.location.reload()
+                dispatch(getUserInfo(_id))
+                props.history.push("/");
             } else {
                 alert('정보 저장에 실패 했습니다.')
             }
@@ -127,7 +128,7 @@ function MyPage(props) {
           return alert("사업자 휴대폰 번호를 입력하여 주세요")
         }
 
-        if(BusinessHpNumber.length < 11){
+        if(BusinessHpNumber.length < 10){
             return alert("사업자 휴대폰 번호를 올바르게 입력하여 주세요")
         }
 
@@ -137,10 +138,6 @@ function MyPage(props) {
     /* ============================================================== */
 
     /* 사업자번호 중복확인 함수========================================= */
-    const businessHpChangeHandler = (event) =>{
-        setBusinessHpNumber(event.currentTarget.value)
-    }
-
     const BusinessNumberOnchange =(e) =>{
        setBusinessNumber(e.target.value)
     }
@@ -157,6 +154,7 @@ function MyPage(props) {
             axios.get(`/api/users/selectBusinessNumber?id=${numberValue}`)
             .then(response => {
                 if (response.data.success) {
+                    setBusinessHpNumber(response.data.userCeo.BusinessHpNumber)
                     alert('사용 가능')
                     seterrBusinessNumber(true)
                 } else {
@@ -217,6 +215,23 @@ function MyPage(props) {
                         <p>메일 :{UserInfo.email}</p>
                         <p>닉네임 :{UserInfo.name}</p>
                         <p>핸드폰 번호 :{UserInfo.hpNumner}</p> 
+
+                        
+                        <Row>
+                            <Col span={6}>
+                            <button 
+                                style={buttonStyle}
+                                onClick={() => props.history.push('/OrderinfoListPage')}
+                            >주문내역</button>                            
+                            </Col>
+                            <Col span={6}>
+                            <button 
+                                style={buttonStyle}
+                                onClick={() => props.history.push('/register/modify')}
+                            >수정하기</button>                            
+                            </Col>
+                        </Row>
+
                     </Card>
     
                     {
@@ -239,7 +254,6 @@ function MyPage(props) {
                         <Button onClick={BusinessNumberHandler} >중복검사</Button>
                         <br></br><br></br>
                         <Input 
-                            onChange={businessHpChangeHandler} 
                             value={BusinessHpNumber} 
                             placeholder="사업자휴대폰번호를 ( - ) 업이 입력하세요"
                             onKeyPress = {numberFormat}

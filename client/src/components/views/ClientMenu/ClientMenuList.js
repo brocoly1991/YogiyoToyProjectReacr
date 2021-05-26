@@ -31,32 +31,30 @@ function ClientMenuList(props) {
         
         state.map((state, index) => {
             let comPrice = state.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            return <Card 
-                    style={{marginTop:'1%' , height :'140px' , cursor : 'pointer' }}
-                    key={index}
-                    // onClick={detailMenu}
-                    value='5'
-                    onClick={() => 
-                        detailMenu(state._id,state.title,state.price)
-                    }
-                   >
-
-
-                
-
-                <div className={'f'} style={{float : 'left' , fontSize:'x-large' ,  overflow: 'auto' , width:'85%' }}>
-                    <span>{state.title}</span>
-                    <br></br>
-                    <span style={{color:'#0000005c'}}>{state.description}</span>
-                    <br></br>
-                    <span>{comPrice}원</span>
-                </div>
-                <div>
-                    <ImageSlider images={state.images} />
-                </div>
-
-                </Card>
-                
+            if(state.DelYn === 'N'){
+                return <Card 
+                        style={{marginTop:'1%' , height :'140px' , cursor : 'pointer' }}
+                        key={index}
+                        // onClick={detailMenu}
+                        value='5'
+                        onClick={() => 
+                            detailMenu(state._id,state.title,state.price)
+                        }
+                    >
+                  
+                        <div style={{float : 'left' , fontSize:'x-large' ,  overflow: 'auto' , width:'65%' }}>
+                            <span>{state.title}</span>
+                            <br></br>
+                            <span style={{color:'#0000005c'}}>{state.description}</span>
+                            <br></br>
+                            <span>{comPrice}원</span>
+                        </div>
+                        <div>
+                            <ImageSlider images={state.images}/>
+                        </div>
+                    
+                    </Card>
+        }       
         })
             
     )

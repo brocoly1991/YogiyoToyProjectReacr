@@ -16,7 +16,7 @@ function Sms(props) {
         .then(response => {
             if (response.data.success) {
                 setstate(response.data.randomCertification)
-                console.log("randomCertification" , response.data.randomCertification ,props)
+                console.log("인증번호:" , response.data.randomCertification )
             } else {
                 alert('인증 메세지 전송에 실패하엿습니다 다시 시도하여주세요')
             }
@@ -36,7 +36,6 @@ function Sms(props) {
     }
 
     const onChangeHander = (e)=>{
-        console.log(e.target.value)
         onChangeHanderState = e.target.value
     }
     /*==================================================== */

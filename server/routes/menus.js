@@ -17,6 +17,47 @@ router.post('/saveMenuGroup', (req, res) => {
 
 })
 
+//메뉴그룹삭제/복구 라우터
+router.post('/delMenuGroup', (req, res) => {
+    let resultDelYn = ''
+    if(req.body.type === 'del'){
+        resultDelYn = 'Y'
+    }else if(req.body.type === 'restore'){
+        resultDelYn = 'N'
+    }
+    MenuGroup.findOneAndUpdate({ _id: req.body.id }, {$set: {DelYn: resultDelYn}}, {new: true}, (err, menuGroup) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).send({
+            success: true , menuGroup : menuGroup 
+        });
+    }); 
+
+})
+
+//메뉴그룹 수정 라우터
+router.post('/modifyMenuGroup', (req, res) => {
+    if(req.body.desc === null || req.body.desc === '' || req.body.desc === undefined){
+        MenuGroup.findOneAndUpdate({ _id: req.body.id }, {$set: {MenuGropName: req.body.title}}, {new: true}, (err, menuGroup) => {
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({
+                success: true , menuGroup : menuGroup 
+            });
+        }); 
+    }else{
+        MenuGroup.findOneAndUpdate({ _id: req.body.id }, 
+                                    {$set: {MenuGropName: req.body.title ,MenuGropExp: req.body.desc}}, 
+                                    {new: true}, 
+                                    (err, menuGroup) => {
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({
+                success: true , menuGroup : menuGroup 
+            });
+        }); 
+    }
+
+    
+})
+
 //메뉴그룹조회 라우터
 router.get('/getMenuGroup' , (req,res) =>{
     // MenuGroup.find({ BusinessNumber: req.query.id })
@@ -58,7 +99,7 @@ router.get('/menu_detail_id' , (req,res) =>{
     }); 
 })
 
-//메뉴정보 수정 라우터  각각의 type별 price=메뉴가격,desc = 메뉴설명,title = 메뉴명 ,img = 메뉴이미지정보
+//메뉴정보 수정 라우터  각각의 type별 price=메뉴가격,desc = 메뉴설명,title = 메뉴명 ,img = 메뉴이미지정보 , del=메뉴삭제
 router.post("/modifyMenuInfo" , (req, res) => {
     let type = req.body.type
         if(type == 'price'){
@@ -84,6 +125,20 @@ router.post("/modifyMenuInfo" , (req, res) => {
             });    
         }else if(type == 'img'){
             Menu.findOneAndUpdate({ _id: req.body._id }, {$set: {images: req.body.images}}, {new: true}, (err, menu) => {
+                if (err) return res.json({ success: false, err });
+                return res.status(200).send({
+                    success: true , menu : menu 
+                });
+            });    
+        }else if(type == 'del'){
+            Menu.findOneAndUpdate({ _id: req.body._id }, {$set: {DelYn: 'Y'}}, {new: true}, (err, menu) => {
+                if (err) return res.json({ success: false, err });
+                return res.status(200).send({
+                    success: true , menu : menu 
+                });
+            });    
+        }else if(type == 'restore'){
+            Menu.findOneAndUpdate({ _id: req.body._id }, {$set: {DelYn: 'N'}}, {new: true}, (err, menu) => {
                 if (err) return res.json({ success: false, err });
                 return res.status(200).send({
                     success: true , menu : menu 

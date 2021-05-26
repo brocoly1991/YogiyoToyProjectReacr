@@ -8,8 +8,8 @@ const userceoSchema = mongoose.Schema({
         maxlength: 20
     },
     BusinessHpNumber: {
-        type: Number,
-        maxlength: 20
+        type: String,
+        maxlength: 30
     },
     BusinessName: {
         type: String,
@@ -29,7 +29,7 @@ const userceoSchema = mongoose.Schema({
     },
     RestaurantHp: {
         type: String,
-        maxlength: 20
+        maxlength: 30
     },
     RestaurantPrice: {
         type: Number,
@@ -51,6 +51,10 @@ const userceoSchema = mongoose.Schema({
     RestaurantCategory: {
         type: String,
         default: 100
+    },
+    RestaurantTitleImg: {
+        type: Array,
+        default: ["uploads/1613930877633_listMenu.png"]
     },
     // RestaurantPayment: {
     //     type: String,
@@ -94,7 +98,11 @@ const userceoSchema = mongoose.Schema({
         default: "N",
         maxlength: 10
     },
-
+    OpenYn : {
+        type: String,
+        default: "Y",
+        maxlength: 10
+    },
 
 }, { timestamps: true })
 

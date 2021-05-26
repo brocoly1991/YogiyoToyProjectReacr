@@ -190,7 +190,6 @@ function OrderConfirm(props) {
     const rendering = (val)=>{
         let result =[]
         val.forEach((info, index) => {
-        console.log("Ad" , info)
         result.push(
              <Card style={{marginBottom:'1%'}} key={index}>
                 {info.title} <span style={{marginLeft : '1%'}}>({info.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</span>

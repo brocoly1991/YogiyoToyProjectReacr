@@ -53,7 +53,6 @@ router.post("/login", (req, res) => {
                 return res.json({ loginSuccess: false, message: "Wrong password" });
 
             user.generateToken((err, user) => {
-                console.log(user)
                 if (err) return res.status(400).send(err);
                 res.cookie("w_authExp", user.tokenExp);
                 res
@@ -102,7 +101,7 @@ router.get("/selectBusinessNumber" , (req, res) => {
                 //성공
                 if(!user){
                     return res.json({
-                        success: true
+                        success: true ,userCeo : userCeo
                     });
                 //사용하고자하는 사업자번호가 이미 등록된 사업자번호일 경우
                 }else{
@@ -117,7 +116,6 @@ router.get("/selectBusinessNumber" , (req, res) => {
 
 //닉네임 중복검사 라우터
 router.get("/nickNameCheck" , (req, res) => {
-    console.log("nickNameCheck" ,  req.query.id)
 
     User.findOne({name: req.query.id}, (err, user) => {
         if(!user){
@@ -297,6 +295,21 @@ router.post("/modifyUserCeoInfo" , (req, res) => {
         //배달가능지역 변경
         }else if(type == 'area'){
             UserCeo.findOneAndUpdate({ BusinessNumber: req.body.BusinessNumber }, {$set: {RestaurantAreaInfo: req.body.RestaurantAreaInfo}}, {new: true}, (err, userCeo) => {
+                if (err) return res.json({ success: false, err });
+                return res.status(200).send({
+                    success: true , userCeoInfo : userCeo , userInfo : user
+                });
+            });
+        //사업장 이미지 변경
+        }else if(type == 'imgTitle'){
+            UserCeo.findOneAndUpdate({ BusinessNumber: req.body.BusinessNumber }, {$set: {RestaurantTitleImg: req.body.images}}, {new: true}, (err, userCeo) => {
+                if (err) return res.json({ success: false, err });
+                return res.status(200).send({
+                    success: true , userCeoInfo : userCeo , userInfo : user
+                });
+            });
+        }else if(type == 'open'){
+            UserCeo.findOneAndUpdate({ BusinessNumber: req.body.BusinessNumber }, {$set: {OpenYn: req.body.open}}, {new: true}, (err, userCeo) => {
                 if (err) return res.json({ success: false, err });
                 return res.status(200).send({
                     success: true , userCeoInfo : userCeo , userInfo : user

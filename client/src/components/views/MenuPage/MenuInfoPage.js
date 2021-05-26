@@ -29,7 +29,7 @@ function MenuInfoPage(props) {
 
     return (
         <div style={{ width: '90%', margin: '3rem auto' ,marginLeft:'5%'}}>
-            <h2>메뉴 등록 및 관리</h2>
+            <h2>메뉴 등록 및 사업장 관리</h2>
             <MenuHeadInfo 
                 name ={UserCeoInfo.RestaurantName} 
                 payment ={UserCeoInfo.RestaurantPayment}

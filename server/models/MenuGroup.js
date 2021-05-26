@@ -19,6 +19,10 @@ const menugroupSchema = mongoose.Schema({
         type: String,
         maxlength: 1000
     },
+    DelYn : {
+        type: String,
+        default: 'N'
+    },
     menu : {
         type: Array,
         default: []

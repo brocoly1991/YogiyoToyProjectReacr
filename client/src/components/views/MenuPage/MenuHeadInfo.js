@@ -1,22 +1,49 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector} from "react-redux";
-import { Tabs,Rate,Checkbox, Card  ,Row ,Input, Button,Modal} from 'antd';
+import { useDispatch,useSelector} from "react-redux";
+import { modifyUserCeoInfo } from '../../../_actions/user_actions';
+import { Tabs,Rate,Checkbox, Card  ,Row ,Input, Button,Modal,Icon} from 'antd';
 import MenuTabMenu from './MenuTabMenu';
 import MenuTabReview from './MenuTabReview';
 import Map from '../../utils/Map'
+import FileModify from '../../utils/FileModify'
 import axios from "axios";
 import './MenuHeadInfo.css';
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 function MenuHeadInfo(props) {
+    const dispatch = useDispatch();
     const review = useSelector(state => state.review)
+    const [PaymentState, setPaymentState] = useState([])
+    const [ImgState, setImgState] = useState([])
     const BusinessNumber = localStorage.getItem("BusinessNumber")
+    const [visible, setVisible] = useState(false);
     const [VisibleModify, setVisibleModify] = useState(false)
     const [ModifyDialog, setModifyDialog] = useState()
     const [state, setstate] = useState([])
     const [ReviewRate, setReviewRate] = useState()
+    const [Open, setOpen] = useState()
     const tabSize = 0
+
+    //결제수단 및 사업장이미지 state설정을위한 effect
+    useEffect(() => {
+
+        if(props.UserCeoInfo.RestaurantPayment !== undefined){
+            setPaymentState(props.UserCeoInfo.RestaurantPayment[0]) 
+        }
+        if(props.UserCeoInfo.RestaurantTitleImg !== undefined){
+            if(props.UserCeoInfo.RestaurantTitleImg.length === 0){
+                setImgState([])
+            }else{
+                setImgState(props.UserCeoInfo.RestaurantTitleImg[0])
+            }            
+        }
+        if(props.UserCeoInfo.OpenYn !== undefined){
+            setOpen(props.UserCeoInfo.OpenYn) 
+        }
+
+    }, [props])
+
     /* =============================리뷰정보를 가져오는 로직================================ */
     useEffect(() => {   
         getReiveList()
@@ -30,7 +57,6 @@ function MenuHeadInfo(props) {
         
         // dispatch(getReviewList(body)).then(response => {
         axios.post(`/api/business/getReviewList` ,body).then(response => {
-            console.log("response" , response ,body)
             if (response.data.success) {
                 setstate(response.data.review)
                 response.data.review.forEach((list,index) =>{         
@@ -85,15 +111,75 @@ function MenuHeadInfo(props) {
     }
     /* ============================================================================================ */
 
+    const RestaurantImgUpdateHandler = ()=>{
+        setVisible(true)
+    }
+
+    //FileModify 컴퍼넌트에서 image정보 가져와서 셋팅
+    const newImg = (value)=>{
+        setVisible(false)
+        setImgState(value)
+    }
+    /*============영업상태 변경함수 ============================== */
+    const openStatusHandler = ()=>{
+        let openStatus =''
+
+        const confirm_test = window.confirm("영업 상태를 변경 하시겟습니까?");
+         
+        if ( confirm_test == false  ) {
+            return false;
+        } 
+
+        if(Open === 'Y'){
+            openStatus = 'N'
+        }else{
+            openStatus = 'Y'
+        }
+
+        let body ={
+            open  : openStatus,
+            BusinessNumber : props.UserCeoInfo.BusinessNumber,
+            type : 'open'
+         }
+
+         dispatch(modifyUserCeoInfo(body)).then(response => { 
+            if (response.payload.success) {
+               alert("영업상태를 변경하엿습니다.")
+            }else{
+                alert("실패")
+            }
+         })
+         setOpen(openStatus)
+         
+    }
+    /*======================================================================= */
+
     return (
         <div style={{border: '4px solid #d9d9d9'}}>
                 <Card lg={12} xs={24}>
-                        <h2>{props.name}</h2>
+                    <div style={{float:'right'}}>
+                    <span style={{fontSize:'large',fontWeight:'bold'}}>영업상태 : </span>
+                    {Open === 'Y' 
+                        ?
+                        <Button onClick={openStatusHandler} style={{backgroundColor:'red' ,color:'white',fontSize:'large'}}>영업중</Button> 
+                        : 
+                        <Button onClick={openStatusHandler} style={{backgroundColor:'red' ,color:'white',fontSize:'large'}}>영업종료</Button>
+                    }
+                    </div>
+              
+                        <h2 style={{fontWeight:'bold'}}>{props.name}</h2> 
                         <hr></hr>
                         <div style={{float:'left'}}>
-                            <img style={{ minWidth: '200px', width: '200px', height: '180px' ,border : '1px solid'}}
-                                    src={`http://localhost:5000/uploads/1613934805587_쉬림프피자.png`}
-                            />
+                            {ImgState.length >0 ? 
+                             <img style={{ minWidth: '200px', width: '200px', height: '180px' ,border : '1px solid' ,cursor:'pointer'}}
+                                        src={`http://localhost:5000/${ImgState}`}  onClick={RestaurantImgUpdateHandler} 
+                             /> 
+                             :
+                            <Icon 
+                                onClick={RestaurantImgUpdateHandler} 
+                                type="plus" 
+                                style={{cursor:'pointer', minWidth: '200px', width: '200px', height: '180px' ,border:'1px solid' ,fontSize:'170px'}} />
+                            }
                         </div>
                         <div style={{ padding : '1%' , minWidth: '200px', width: '400px', height: '180px', float: 'left' ,marginLeft : '2%' ,fontSize :'large'}}>
                             {renderCnt(ReviewRate)}
@@ -104,7 +190,7 @@ function MenuHeadInfo(props) {
                             원</p>
                             <p>결제 : &nbsp;
 
-                            <Checkbox.Group disabled value={"10,20,30"} >
+                            <Checkbox.Group disabled value={PaymentState} >
                                 <Row>
                                     <Checkbox value="10">신용카드</Checkbox>
                                     <Checkbox value="20">현금</Checkbox>
@@ -171,11 +257,19 @@ function MenuHeadInfo(props) {
                 // width={1000}
                 >
                 <TextArea onChange={modifyDialogChangeHandler} value={ModifyDialog}/> 
-
-
             </Modal>
 
-
+            <Modal
+                title="이미지 수정하기"
+                centered
+                visible={visible}
+                onOk={() => setVisible(false)}
+                onCancel={() => setVisible(false)}
+                // width={1000}
+                >
+                    <FileModify img={props.UserCeoInfo.RestaurantTitleImg} type={'title'}  BusinessNumber={ props.UserCeoInfo.BusinessNumber} refreshFunction={newImg}/>
+                    {/* <FileUpdate /> */}
+            </Modal>    
         </div>
     )
 }

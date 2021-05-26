@@ -222,7 +222,6 @@ router.post('/getOrderStroeList' , (req,res) =>{
         .sort({createdAt : sortVal})
         .exec((err, order) => {
             if (err) return res.status(400).json({ success: false, err })
-            console.log("order" ,order.length )
             return res.status(200).json({
                 success: true , orderList : order 
             })
@@ -368,7 +367,7 @@ router.post('/List', (req, res) => {
     let skip = req.body.skip ? parseInt(req.body.skip) : 0;
     let storeId = req.body.storeId ? req.body.storeId : '1000';
     if(storeId === '1000'){
-        UserCeo.find()
+        UserCeo.find({ DelYn : "N"  } )
         .populate("writer")
         .skip(skip)
         .limit(limit)
@@ -376,11 +375,11 @@ router.post('/List', (req, res) => {
             if (err) return res.status(400).json({ success: false, err })
             return res.status(200).json({
                 success: true, UserCeoInfo,                  
-                postSize: UserCeoInfo.length
+                postSize: UserCeoInfo.length,
             })
         })
     }else{
-        UserCeo.find({RestaurantCategory : storeId})
+        UserCeo.find({RestaurantCategory : storeId,DelYn : "N"  })
         .populate("writer")
         .skip(skip)
         .limit(limit)

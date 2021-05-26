@@ -109,8 +109,6 @@ function RegisterModifyModal(props) {
 
     /*========================닉네임 중복검사=============================*/
     const dupNameHandler =()=>{
-        console.log("NewName" , NewName)
-
         axios.get(`/api/users/nickNameCheck?id=${NewName}`).then(response => {
             if (response.data.success) {
                 alert('사용 가능합니다.')

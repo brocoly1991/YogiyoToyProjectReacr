@@ -136,7 +136,25 @@ function MenuModifyPage(props) {
         })
     }  
     /*========================================================= */
-    
+
+    /* ====================메뉴 삭제 함수======================= */
+    const delClickHandler =()=>{
+        let body ={
+            _id : State._id,
+            type : 'del'
+         }
+         dispatch(modifyMenuInfo(body))
+         .then(response => {
+            if (response.payload.success) {
+                alert('정보 저장에 성공 했습니다.')
+                props.history.push('/AdminPage')
+            }else{
+                alert('정보 저장에 실패 했습니다.')
+            } 
+        })
+    }
+    /*========================================================= */
+
     /*===============이미지 변경 모달 =======================*/
     const imgModifyHandler = ()=>{
         setVisible(true)       
@@ -219,6 +237,8 @@ function MenuModifyPage(props) {
                     <Button onClick={updateDescClickHandler} style={{height :'50px' , width:'18%',  fontSize : 'x-large'}}>수정완료</Button>
                 </div>
                 }
+                <br></br>
+                <Button onClick={delClickHandler} style={{width:'100%',fontSize:'x-large',height:80}}>삭제하기</Button>
             </Col>
         </Row>
 

@@ -16,7 +16,7 @@ function StoreRegisterModify(props) {
     const [UserCeoInfo, setUserCeoInfo] = useState({})
     const [formatPrice, setformatPrice] = useState()
     const [visible, setVisible] = useState(false);
-
+    const [PaymnetState, setPaymnetState] = useState([])
     //수정시 state 설정
     const [newNameInfo, setnewNameInfo] = useState()
     const [newHpInfo, setnewHpInfo] = useState()
@@ -68,7 +68,8 @@ function StoreRegisterModify(props) {
         }       
     }, [user])
 
-    const getUserCeoInfo = () =>{
+    const getUserCeoInfo = () =>{        
+        setPaymnetState(user.getUserInfo.userCeoInfo.RestaurantPayment[0])
         setUserCeoInfo(user.getUserInfo.userCeoInfo)
         setformatPrice(user.getUserInfo.userCeoInfo.RestaurantPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))  
     }
@@ -82,7 +83,6 @@ function StoreRegisterModify(props) {
     }
     
     const handleComplete = (data) => {
-        console.log("data" , data)
         let fullAddress = data.address;
         let extraAddress = "";
 
@@ -512,7 +512,8 @@ function StoreRegisterModify(props) {
                 {
                     Tag.paymentTag === 'span' &&
                     <Col span={18} push={6} style={colStyle}>
-                    <Checkbox.Group disabled style={{ width: '100%',lineHeight :'2.3'}} value={UserCeoInfo.RestaurantPayment}>
+                    <Checkbox.Group disabled style={{ width: '100%',lineHeight :'2.3'}} value={PaymnetState}>
+                    {/* <Checkbox.Group disabled style={{ width: '100%',lineHeight :'2.3'}} value={UserCeoInfo.RestaurantPayment}> */}
                         <Row>
                         <Col span={5}>
                             <Checkbox value="10">신용카드</Checkbox>

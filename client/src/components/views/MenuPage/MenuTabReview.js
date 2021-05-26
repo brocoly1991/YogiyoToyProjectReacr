@@ -32,7 +32,6 @@ function MenuTabReview(props) {
 
     //모달창 호출시 기존 답글 정보설정 
     const modifyHandler =(val,val2)=>{
-        console.log(val,val2)
 
         let body={
             reviewId : val,

@@ -95,7 +95,6 @@ function StoreRegisterPage(props) {
             });
         })
     }).then(result => {
-        console.log("result" , result)
         setLat(result.lat) 
         setLon(result.lon)
     });
@@ -292,6 +291,7 @@ function StoreRegisterPage(props) {
       Lat : Lat,
       Lon : Lon
     }
+
 
     Axios.post('/api/business/newenroll', body)
     .then(response => {

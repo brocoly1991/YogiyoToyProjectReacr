@@ -27,7 +27,7 @@ function OrderPage(props) {
     
     let today = new Date();   
     let userAreaInfo = window.localStorage.getItem("userAreaInfo")
-
+    // let BusinessNumber = window.localStorage.getItem("BusinessNumber")
     /* 페이지 최초접근시 user정보로드 만약 정상적인 접근경로가아닐시 메인화면호출 */
     useEffect(() => {
         
@@ -164,7 +164,7 @@ function OrderPage(props) {
             amount : originalPrice,
             RequestOrder : RequestOrder,
             buyer_tel : Tell,
-            no : 'imp_test18528570XPH86',
+            no : 'imp_test18528570'+makeRandomString(),
             userId : UserId,
             mail: UserMail,
             buyer_addr : isAddress + '/' + isAddressDetail
@@ -173,7 +173,6 @@ function OrderPage(props) {
                 Axios.post('/api/business/orderInsert', body)
                 .then(response => {
                     if (response.data.success) {            
-                        console.log(response.data.order)
                         let menuListInfo
                         if(response.data.order.OrderList.length === 1){
                             menuListInfo = response.data.order.OrderList[0].id
@@ -247,7 +246,6 @@ function OrderPage(props) {
                 Axios.post('/api/business/orderInsert', body)
                 .then(response => {
                     if (response.data.success) {            
-                        console.log(response.data.order)
                         let menuListInfo
                         if(response.data.order.OrderList.length === 1){
                             menuListInfo = response.data.order.OrderList[0].id
@@ -267,7 +265,6 @@ function OrderPage(props) {
                         Axios.post('/api/business/smsOrderInfo', body)
                         .then(response => {
                             if (response.data.success) {
-                                console.log("extension" , response.data.extension)
                             } else {
                                 alert('배달정보 문자메시지 전송에 실패하엿습니다.')
                             }

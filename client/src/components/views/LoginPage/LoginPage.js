@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 import { useDispatch } from "react-redux";
+import { WindowsFilled } from "@ant-design/icons";
 
 const { Title } = Typography;
 
@@ -52,7 +53,8 @@ function LoginPage(props) {
                 } else {
                   localStorage.removeItem('rememberMe');
                 }
-                props.history.push("/");
+                window.location.reload()
+                // props.history.push('/')
               } else {
                 setFormErrorMessage('Check out your Account or Password again')
               }

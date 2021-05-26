@@ -5,6 +5,7 @@ import FileUpload from '../../utils/FileUpload'
 import SaveMenuGroupModal from './SaveMenuGroupModal.js'
 import { getUserInfo } from '../../../_actions/user_actions';
 import { getMenuGroupItems } from '../../../_actions/menu_action';
+import NumberFormat from 'react-number-format';
 import Axios from 'axios';
 
 const { TextArea } = Input;
@@ -63,7 +64,7 @@ function SaveMenuPage(props) {
 
     const [Title, setTitle] = useState("")
     const [Description, setDescription] = useState("")
-    const [Price, setPrice] = useState(0)
+    const [Price, setPrice] = useState()
     const [Continent, setContinent] = useState(1)
     const [Images, setImages] = useState([])
     
@@ -76,17 +77,13 @@ function SaveMenuPage(props) {
         setDescription(event.currentTarget.value)
     }
 
-    const priceChangeHandler = (event) => {
-        setPrice(event.currentTarget.value)
+    const priceChangeHandler = (val) => {
+        setPrice(val.floatValue)
     }
-    
 
     const continentChangeHandler = (event) => {
         if(event.currentTarget.value === '100'){
-            setVisible(true)
-            // return(<SaveMenuGroupModal 
-            //             visible={visible} 
-            //         />)                 
+            setVisible(true)        
         }else{
             setContinent(event.currentTarget.value)
         }
@@ -100,15 +97,23 @@ function SaveMenuPage(props) {
     }
     /* ==================================메뉴등록 함수=================================*/ 
     const submitHandler = (event) => {
+
         event.preventDefault();
 
-        // if (!Title || !Description || !Price || !Continent || Images.length === 0) {
-        //     return alert(" 모든 값을 넣어주셔야 합니다.")
-        // }
-
+        if(!Title){
+            return alert("이름을 입력하여 주세요")
+        }
+        if(!Description){
+            return alert("설명을 입력하여 주세요")
+        }
+        if(!Price){
+            return alert("가격을 입력하여 주세요")
+        }
+        if(Continent === 1 || Continent === '0'){
+            return alert("메뉴그룹을 선택하여 주세요")
+        }
 
         //서버에 채운 값들을 request로 보낸다.
-
         const body = {
             //로그인 된 사람의 ID 
             writer: props.user.userData._id,
@@ -119,11 +124,12 @@ function SaveMenuPage(props) {
             MenuGroup: Continent,
             BusinessNumber : busNumber
         }
+
         Axios.post('/api/menus/insert', body)
             .then(response => {
                 if (response.data.success) {
                     alert('상품 업로드에 성공 했습니다.')
-                    props.history.push('/')
+                    props.history.push('/AdminPage')
                 } else {
                     alert('상품 업로드에 실패 했습니다.')
                 }
@@ -131,6 +137,7 @@ function SaveMenuPage(props) {
 
     }
     /*======================================================================== */
+
     return (
         <div>
             <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -147,29 +154,35 @@ function SaveMenuPage(props) {
                     
                     <br />
                     <br />
-                    <label>이름</label>
-                    <Input onChange={titleChangeHandler} value={Title} />
+                    <label>이름</label><br />
+                    <input onChange={titleChangeHandler} value={Title} style={{width:'100%',border:'1px solid #beb9b9bd',height:30}}/>
                     <br />
                     <br />
-                    <label>설명</label>
-                    <TextArea onChange={descriptionChangeHandler} value={Description} />
+                    <label>설명</label><br />
+                    <textarea onChange={descriptionChangeHandler} value={Description} style={{width:'100%',border:'1px solid #beb9b9bd',height:30}}/>
                     <br />
                     <br />
                     <label>가격</label>
-                    <Input type="number" onChange={priceChangeHandler} value={Price} />
+                    <br />
+                    <NumberFormat 
+                        value={Price}
+                        onValueChange={priceChangeHandler}
+                        thousandSeparator={true} 
+                        style={{width:'100%',border:'1px solid #beb9b9bd',height:30}}
+                    />
                     <br />
                     <br />
 
                     <label>메뉴그룹</label>
                     <br></br>
                     <select onChange={continentChangeHandler} value={Continent} style={{width:'40%'}}>
-                    <option key='0' value='0'>메뉴그룹을 선택하여 주세요</option>
-                         
-                        {Continents.map(item => (
-                            <option key={item.key} value={item.key}> {item.value}</option>   
-                        ))}
+                        <option key='0' value='0'>메뉴그룹을 선택하여 주세요</option>
+                            
+                            {Continents.map(item => (
+                                <option key={item.key} value={item.key}> {item.value}</option>   
+                            ))}
                         <option key='100' value='100' style={{color:'red'}}> 메뉴 그룹 추가</option>  
-                     </select>
+                    </select>
 
 
                     <br />

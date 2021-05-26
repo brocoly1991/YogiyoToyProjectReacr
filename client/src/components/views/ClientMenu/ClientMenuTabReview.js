@@ -67,8 +67,6 @@ function ClientMenuTabReview(props) {
     }
 
     const onOkModifyHandler =()=>{
-        console.log("NewImg" , NewImg) 
-        console.log("OriginImg" , OriginImg) 
         if(ModifyDes === undefined || ModifyDes === '' || ModifyDes === null  ){
             return alert("내용을 입력하여 주세요")
         }
