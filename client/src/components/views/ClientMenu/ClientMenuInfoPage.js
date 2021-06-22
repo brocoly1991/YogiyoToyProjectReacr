@@ -142,10 +142,9 @@ function ClientMenuInfoPage(props) {
          주문표에는 동일한 사업장의 메뉴만 등록할 수 있다.      
     */
     const updateOrder = (id,title,price)=>{
-
+        
         //기존 주문표 정보가있는지확인
         if(orderExist.length >0){
-
             window.localStorage.setItem("orderMenuId", JSON.stringify(Number(orderExist[0].BusinessNumber)));
             // 기존 주문표의 사업장  = orderExist[0].BusinessNumber , 현제 페이지의 사업장 = menuId
             if(orderExist[0].BusinessNumber != menuId){
@@ -155,7 +154,7 @@ function ClientMenuInfoPage(props) {
         }else{
             window.localStorage.setItem("orderMenuId", JSON.stringify(Number(menuId)));
         }
-
+        setComPrice( state.RestaurantPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
         setFlag(true)
         let flag = false;
         totalPrice = Number(TotalPirce) + price
@@ -238,6 +237,7 @@ function ClientMenuInfoPage(props) {
         localStorage.removeItem('orderPrice');
         localStorage.removeItem('orderMinPrice');
         localStorage.removeItem('orderMenuId');
+        // setComPrice(ComPrice)
         setOrderList([])
         setTotalPirce(0)
         setFlag(false)
@@ -247,7 +247,7 @@ function ClientMenuInfoPage(props) {
 
     /* 주문하기 버튼클릭시 결제페이지로 이동하는 함수 만약 유저가 결제페이지로 url찍고 강제이동하는걸 방지하기위해 state설정*/
     const orderClickHandler =()=>{
-
+        //최소주문금액 확인
         if(Number(TotalPirce) <  state.RestaurantPrice){
             return alert("이 음식점의 최소 주문 금액은 " +ComPrice+"원 입니다.")
         }

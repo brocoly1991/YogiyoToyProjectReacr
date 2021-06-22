@@ -135,9 +135,9 @@ function OrderPage(props) {
         if(!Flag){
             return alert("인증을 확인하여 주세요")
         }else{
-            // iamPort()
+            iamPort()
             //test용 간단히 할려고 iamport()로해야 결제로직 똑바로돔
-            iamPort2()
+            // iamPort2()
         }
 
     }
@@ -156,6 +156,8 @@ function OrderPage(props) {
 
     /* =================결제test용 간편하게하기위한 임시로직======================================= */
     const iamPort2 =()=>{
+
+        alert("test용 함수, 실로직은 iamport()함수 주석을 풀고 이용하여주세요.")
 
         let body = {
             BusinessNumber : BusinessNumber,
@@ -283,11 +285,13 @@ function OrderPage(props) {
                 
                 var msg = '결제가 완료되었습니다.\n 전송된 주문번호를 확인하여 주세요\n 주문번호:' + orderImpUid;
                 setVisible2(false)
+                alert(msg);
+                props.history.push("/");
 	        } else {
 	            var msg = '결제에 실패하였습니다.';
 	            msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
 	        }
-            alert(msg);
 	    });
     }
 

@@ -210,14 +210,24 @@ function MyPage(props) {
         if(UserInfo.BusinessNumber === 0){
             return (
                 <div style={{ width: '85%', margin: '5rem auto' }}>
-                    <Card lg={12} xs={24}>
+                    <Card lg={12} xs={24} style={{minWidth:'460px'}}>
+                    <Row>
+
+                        {
+                          UserInfo.BusinessNumber === 0 && 
+                          <Button style={{fontWeight:'bold' , float:'right',height:'210px',fontSize:'x-large'}} type="primary" onClick={showModal}>
+                            사업자 번호 등록
+                          </Button>              
+                        }
+
                         <h1>회원정보</h1>
                         <p>메일 :{UserInfo.email}</p>
                         <p>닉네임 :{UserInfo.name}</p>
                         <p>핸드폰 번호 :{UserInfo.hpNumner}</p> 
 
                         
-                        <Row>
+                        
+
                             <Col span={6}>
                             <button 
                                 style={buttonStyle}
@@ -233,20 +243,16 @@ function MyPage(props) {
                         </Row>
 
                     </Card>
-    
-                    {
-                            UserInfo.BusinessNumber === 0 && 
-                            
-                          <Button type="primary" onClick={showModal}>
-                            사업자 번호 등록
-                          </Button>              
-                    }
+      
+
                     
                     <Modal title="사업자 번호 등록" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                        <h3>입점문의 페이지를 통해 사업자정보를 등록하세요</h3>
+                        <h4 style={{cursor:'pointer',color:'blue'}} onClick={() => props.history.push('/storeRegister')}>입점문의 페이지 바로가기</h4>
                         <Input 
                             onChange={BusinessNumberOnchange} 
                             value={BusinessNumber} 
-                            placeholder='사업자번호를 (-) 없이 입력하세요'
+                            placeholder='업점문의 페이지에서 등록한 사업자번호를 (-) 없이 입력하세요'
                             maxLength = {10}
                             onKeyPress = {numberFormat}
                         >               

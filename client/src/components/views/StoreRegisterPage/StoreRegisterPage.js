@@ -491,14 +491,14 @@ function StoreRegisterPage(props) {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              <Option value="13">분식</Option>
+              {/* <Option value="13">분식</Option> */}
               <Option value="14">중식</Option>
               <Option value="4">치킨</Option>    
               <Option value="2">한식</Option>   
-              <Option value="17">족발보쌈</Option>    
-              <Option value="1">피자양식</Option>        
-              <Option value="18">일식돈까스</Option>   
-              <Option value="368">카페디저트</Option>
+              <Option value="17">족발/보쌈</Option>    
+              <Option value="1">피자/양식</Option>        
+              <Option value="18">일식/돈까스</Option>   
+              {/* <Option value="368">카페디저트</Option> */}
               <Option value="134">프랜차이즈</Option>
             </Select>
           </Col>

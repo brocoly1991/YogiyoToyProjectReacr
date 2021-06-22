@@ -1,11 +1,14 @@
 import React , { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import { Row,Col,Card} from 'antd';
 import moment from 'moment';
+import axios from 'axios';
+import {getOrderStroeList} from '../../../_actions/order_action'
 
 function AdminChartIncome() {
-
+  const dispatch = useDispatch();
+  const BusinessNumber = localStorage.getItem("BusinessNumber")
   const format = "YYYY-MM-DD"
   const order = useSelector(state => state.order)
   const [TodayArrt, setTodayArrt] = useState([])
@@ -34,7 +37,14 @@ function AdminChartIncome() {
     income : 0,
     cnt : 0
   })
-  
+
+  useEffect(() => {
+    let body = {
+      BusinessNumber : BusinessNumber
+    }
+    dispatch(getOrderStroeList(body))
+  }, [])
+
   /*==========================최초 사업자 주문정보로드함수======================= */
   useEffect(() => {
 
@@ -65,6 +75,7 @@ function AdminChartIncome() {
 
     let Arry = []
     let todayArry = []
+
     if(order.selectOrderStroeList !== undefined){
       order.selectOrderStroeList.forEach((list,index) => {
         let date = new Date(list.createdAt);
@@ -83,7 +94,7 @@ function AdminChartIncome() {
       setArrtState(Arry)
       setTodayArrt(todayArry)
     }else{
-      window.location.reload()
+      // window.location.reload()
     }
 
   }, [order])
@@ -292,7 +303,7 @@ function AdminChartIncome() {
             <div style={{display:'flex',textAlign:'-webkit-center'}}>
               <div style={{width:'40%',marginLeft:'4%'}}>
                 <Card style={{textAlign:'justify'}}>
-                  <h2>일일매출</h2>
+                  <h2>당일매출</h2>
                   <h3>매출액:{TodayState.income}원</h3>
                   <h3>주문건수:{TodayState.cnt}건</h3>
                   <hr></hr>

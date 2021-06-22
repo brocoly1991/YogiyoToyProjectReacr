@@ -3,15 +3,17 @@ import { useDispatch ,useSelector} from 'react-redux';
 import { Button,Progress, Card , Input} from 'antd';
 import { getOrderNo } from '../../../_actions/order_action';
 import menuNo1 from '../../../img/menuNo1.png'
+import axios from "axios";
 import moment from 'moment';
 function OrderInfoPage(props) {
+ 
   const dispatch = useDispatch();
   const order = useSelector(state => state.order)
   const [percent, setpercent] = useState(0)
   const [Flag, setFlag] = useState(false)
   const [OrderNo, setOrderNo] = useState()
   const [OrderList, setOrderList] = useState([])
-
+  const [ImgState, setImgState] = useState([])
   const [state, setstate] = useState({
       name:'',
       menuName:'',
@@ -24,7 +26,7 @@ function OrderInfoPage(props) {
       mail : '',
       status : 'A'
   })
-
+  console.log( "s"  , ImgState)
   /*========주문번호 조회시 UI 핸들러함수===============*/
   const flagFuction = ()=>{
 
@@ -101,6 +103,14 @@ function OrderInfoPage(props) {
             alert("주문번호가 존재하지 않습니다 \n 주문번호를 확인후 다시 조회해 주세요")
             window.location.reload();
           }
+
+          let body = {
+            menuId :  response.payload.order.BusinessNumber,
+          }
+          axios.post('/api/business/getResInfo', body).then(response => {
+            setImgState(response.data[0].RestaurantTitleImg)
+          })
+
           let menuName
 
           if(response.payload.order.OrderList.length > 1){
@@ -165,7 +175,13 @@ const goStoreClickHandler = () =>{
           {Flag === true &&
           <div style={{minWidth:'450px',marginTop:'1%',width:'80%'}}>
             <Card style={{marginBottom:'1%'}}>
-            <img style={{border:'1px solid' ,height:'100px' ,float:'left',marginRight:'3%'}} src={menuNo1} />
+            {ImgState.length !== 0 ? 
+              <img style={{border:'1px solid' ,height:'100px' ,float:'left',marginRight:'3%'}} src={`http://localhost:5000/${ImgState}`} />
+             :
+             <img style={{border:'1px solid' ,height:'100px' ,float:'left',marginRight:'3%'}} src={menuNo1} />
+            }
+            
+            
                 <h2>{state.name}</h2>
                 <h3 style={{float:'left',marginRight:'2%'}}>{state.menuName}</h3><h3 >{state.totalPrice}원</h3>
                 <Button>{state.status}</Button>

@@ -30,6 +30,7 @@ function AdminChartPage() {
   },[])
 
   const getReiveList = (val)=>{
+    
       let cnt1 = 0
       let cnt2 = 0
       let cnt3 = 0
